@@ -9,6 +9,11 @@ Private browser image conversion for resizing and exporting images without an up
 
 Publishing a handful of images should not require a desktop batch tool, a cloud upload, or a full editing suite. `img-convert-web` brings the most common publishing workflow from [img-convert](https://github.com/fabianwimberger/img-convert) into the browser: drop images in, choose the output format and size, then download web-ready files.
 
+<p align="center">
+  <img src="assets/screenshot.png" width="100%" alt="img-convert-web UI">
+  <br><em>Drop images, choose format and size, convert locally, then download files or a ZIP archive</em>
+</p>
+
 ## Features
 
 - **Private by default** — files are decoded, resized, and encoded in the browser
@@ -49,13 +54,6 @@ flowchart LR
 ```
 
 Image data stays on the local device. Available output formats depend on the browser's canvas encoder support, so unsupported formats are disabled automatically.
-
-## Related Projects
-
-- [img-convert](https://github.com/fabianwimberger/img-convert) — desktop batch image converter with native encoders for JPG, AVIF, JXL, and HEIC
-- [archive-video-av1](https://github.com/fabianwimberger/archive-video-av1) — self-hosted web UI for AV1 video conversion
-- [cloud-bench](https://github.com/fabianwimberger/cloud-bench) — cloud throughput benchmarking across HTTP reverse proxies
-- [linznetz-energy-tracker](https://github.com/fabianwimberger/linznetz-energy-tracker) — local energy data tracking for Linz Netz exports
 
 ## Configuration
 
