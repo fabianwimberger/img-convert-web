@@ -1,0 +1,172 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Browser image conversion for JPEG, PNG, WebP, and supported AVIF output.">
+    <title>img-conver-web</title>
+    <link rel="icon" href="./favicon.svg" type="image/svg+xml">
+    <link rel="stylesheet" href="./styles.css">
+  </head>
+  <body>
+    <header class="topbar">
+      <a class="brand" href="./" aria-label="img-conver-web home">
+        <span class="brand-mark" aria-hidden="true"></span>
+        <span>img-conver-web</span>
+      </a>
+      <div class="topbar-actions">
+        <span id="encoder-status" class="status-pill">Checking encoders</span>
+        <button id="theme-toggle" class="icon-button" type="button" title="Toggle theme" aria-label="Toggle theme">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M12 3a9 9 0 1 0 9 9 7 7 0 0 1-9-9Z"></path>
+          </svg>
+        </button>
+      </div>
+    </header>
+
+    <main class="workspace">
+      <section class="panel intake-panel" aria-labelledby="images-heading">
+        <div class="panel-header">
+          <div>
+            <h1 id="images-heading">Images</h1>
+            <p id="selection-summary">0 files selected</p>
+          </div>
+          <div class="header-actions">
+            <button id="clear-button" class="secondary-button" type="button" disabled>Clear</button>
+            <label class="primary-button file-button">
+              <input id="file-input" type="file" accept="image/*,.bmp,.svg" multiple>
+              Add Images
+            </label>
+          </div>
+        </div>
+
+        <div id="drop-zone" class="drop-zone" tabindex="0">
+          <div class="drop-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24">
+              <path d="M12 3v12"></path>
+              <path d="m7 10 5 5 5-5"></path>
+              <path d="M5 21h14"></path>
+            </svg>
+          </div>
+          <div>
+            <strong>Drop images here</strong>
+            <span>JPEG, PNG, WebP, GIF, BMP, SVG</span>
+          </div>
+        </div>
+
+        <div class="table-shell">
+          <table>
+            <thead>
+              <tr>
+                <th scope="col">File</th>
+                <th scope="col">Input</th>
+                <th scope="col">Output</th>
+                <th scope="col">Status</th>
+                <th scope="col"></th>
+              </tr>
+            </thead>
+            <tbody id="file-table">
+              <tr class="empty-row">
+                <td colspan="5">No images loaded</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <aside class="panel settings-panel" aria-labelledby="settings-heading">
+        <div class="panel-header compact">
+          <div>
+            <h2 id="settings-heading">Output</h2>
+            <p id="output-summary">Ready</p>
+          </div>
+        </div>
+
+        <form id="settings-form" class="settings-form">
+          <fieldset>
+            <legend>Format</legend>
+            <div id="format-options" class="segmented-control">
+              <label>
+                <input type="radio" name="format" value="image/jpeg" checked>
+                <span>JPG</span>
+              </label>
+              <label>
+                <input type="radio" name="format" value="image/png">
+                <span>PNG</span>
+              </label>
+              <label>
+                <input type="radio" name="format" value="image/webp">
+                <span>WebP</span>
+              </label>
+              <label>
+                <input type="radio" name="format" value="image/avif">
+                <span>AVIF</span>
+              </label>
+            </div>
+          </fieldset>
+
+          <label class="field">
+            <span>Quality</span>
+            <span id="quality-value" class="value-badge">82</span>
+            <input id="quality-input" type="range" min="35" max="100" value="82">
+          </label>
+
+          <fieldset>
+            <legend>Short Side</legend>
+            <div class="segmented-control">
+              <label>
+                <input type="radio" name="shortSide" value="0" checked>
+                <span>Original</span>
+              </label>
+              <label>
+                <input type="radio" name="shortSide" value="3000">
+                <span>High</span>
+              </label>
+              <label>
+                <input type="radio" name="shortSide" value="1440">
+                <span>Low</span>
+              </label>
+            </div>
+          </fieldset>
+
+          <label class="field">
+            <span>Background</span>
+            <span id="background-value" class="value-badge">#ffffff</span>
+            <input id="background-input" type="color" value="#ffffff">
+          </label>
+
+          <label class="check-field">
+            <input id="keep-names-input" type="checkbox" checked>
+            <span>Keep source names</span>
+          </label>
+
+          <div class="action-stack">
+            <button id="convert-button" class="primary-button wide" type="submit" disabled>Convert</button>
+            <button id="download-all-button" class="secondary-button wide" type="button" disabled>Download ZIP</button>
+          </div>
+        </form>
+
+        <div id="preview" class="preview empty-preview">
+          <span>No preview</span>
+        </div>
+      </aside>
+    </main>
+
+    <template id="file-row-template">
+      <tr>
+        <td>
+          <button class="file-name" type="button"></button>
+          <div class="file-meta"></div>
+        </td>
+        <td class="input-size"></td>
+        <td class="output-size"></td>
+        <td><span class="row-status"></span></td>
+        <td class="row-actions">
+          <button class="download-button" type="button" disabled>Download</button>
+        </td>
+      </tr>
+    </template>
+
+    <script src="./app.js" type="module"></script>
+  </body>
+</html>
