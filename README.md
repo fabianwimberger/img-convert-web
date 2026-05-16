@@ -1,5 +1,6 @@
-# img-conver-web
+# img-convert-web
 
+[![CI](https://github.com/fabianwimberger/img-convert-web/actions/workflows/ci.yml/badge.svg)](https://github.com/fabianwimberger/img-convert-web/actions/workflows/ci.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 A browser image conversion service for resizing and exporting images without uploading them to a server.
@@ -17,18 +18,18 @@ Small web publishing jobs often need the same image handoff as the desktop `img-
 - **Alpha handling** — configurable background color for JPG output
 - **Batch download** — converted files are packaged as a dependency-free ZIP
 - **Light / dark theme** — matches the `img-convert` palette
-- **GitHub Pages deployment** — static files are published from `docs/`
+- **GitHub Pages deployment** — workflow publishes the static app from `docs/`
 
 ## Live Service
 
-View the service at **[fabianwimberger.github.io/img-conver-web](https://fabianwimberger.github.io/img-conver-web/)**.
+View the service at **[fabianwimberger.github.io/img-convert-web](https://fabianwimberger.github.io/img-convert-web/)**.
 
 ## Quick Start
 
 ```bash
 # Clone
-git clone https://github.com/fabianwimberger/img-conver-web.git
-cd img-conver-web
+git clone https://github.com/fabianwimberger/img-convert-web.git
+cd img-convert-web
 
 # Serve locally
 python3 -m http.server 8000 --directory docs
