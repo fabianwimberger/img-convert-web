@@ -13,7 +13,7 @@ Small web publishing jobs often need the same image handoff as the desktop `img-
 
 - **Local conversion** — images stay in the browser
 - **Format choice** — JPG, PNG, WebP, and AVIF when supported by the browser
-- **Resize presets** — original, high (3000 px short side), and low (1440 px short side)
+- **Resize targets** — original, common short-side presets, megapixel presets, and custom values
 - **Quality control** — browser encoder quality slider for lossy formats
 - **Alpha handling** — configurable background color for JPG output
 - **Batch download** — converted files are packaged as a dependency-free ZIP

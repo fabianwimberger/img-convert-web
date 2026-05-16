@@ -5,6 +5,12 @@ const rowTemplate = document.querySelector("#file-row-template");
 const settingsForm = document.querySelector("#settings-form");
 const qualityInput = document.querySelector("#quality-input");
 const qualityValue = document.querySelector("#quality-value");
+const resizePreset = document.querySelector("#resize-preset");
+const resizeValue = document.querySelector("#resize-value");
+const customResizeField = document.querySelector("#custom-resize-field");
+const customResizeLabel = document.querySelector("#custom-resize-label");
+const customResizeUnit = document.querySelector("#custom-resize-unit");
+const customResizeInput = document.querySelector("#custom-resize-input");
 const backgroundInput = document.querySelector("#background-input");
 const backgroundValue = document.querySelector("#background-value");
 const keepNamesInput = document.querySelector("#keep-names-input");
@@ -63,8 +69,51 @@ function selectedMime() {
   return new FormData(settingsForm).get("format");
 }
 
-function selectedShortSide() {
-  return Number(new FormData(settingsForm).get("shortSide"));
+function selectedResizeTarget() {
+  const [mode, value] = resizePreset.value.split(":");
+
+  if (mode === "original") {
+    return { mode };
+  }
+
+  const numericValue = value === "custom" ? Number(customResizeInput.value) : Number(value);
+  if (!Number.isFinite(numericValue) || numericValue <= 0) {
+    return { mode: "original" };
+  }
+
+  return { mode, value: numericValue };
+}
+
+function resizeLabel(target = selectedResizeTarget()) {
+  if (target.mode === "short") {
+    return `${target.value} px`;
+  }
+  if (target.mode === "mp") {
+    return `${target.value} MP`;
+  }
+  return "Original";
+}
+
+function updateResizeControls() {
+  const isShortCustom = resizePreset.value === "short:custom";
+  const isMpCustom = resizePreset.value === "mp:custom";
+  const isCustom = isShortCustom || isMpCustom;
+
+  customResizeField.classList.toggle("hidden-field", !isCustom);
+  customResizeLabel.textContent = isMpCustom ? "Custom Megapixels" : "Custom Short Side";
+  customResizeUnit.textContent = isMpCustom ? "MP" : "px";
+  customResizeInput.min = isMpCustom ? "0.1" : "1";
+  customResizeInput.max = isMpCustom ? "200" : "12000";
+  customResizeInput.step = isMpCustom ? "0.1" : "1";
+
+  if (isShortCustom && (Number(customResizeInput.value) < 1 || Number(customResizeInput.value) > 12000)) {
+    customResizeInput.value = "1440";
+  }
+  if (isMpCustom && (Number(customResizeInput.value) < 0.1 || Number(customResizeInput.value) > 200)) {
+    customResizeInput.value = "2";
+  }
+
+  resizeValue.textContent = resizeLabel();
 }
 
 function statusText(record) {
@@ -196,17 +245,30 @@ function loadImage(url) {
   });
 }
 
-function targetSize(width, height, shortSide) {
-  if (shortSide === 0) {
+function targetSize(width, height, target) {
+  if (target.mode === "original") {
     return { width, height };
   }
 
-  const currentShortSide = Math.min(width, height);
-  if (currentShortSide <= shortSide) {
-    return { width, height };
+  let scale = 1;
+
+  if (target.mode === "short") {
+    const currentShortSide = Math.min(width, height);
+    if (currentShortSide <= target.value) {
+      return { width, height };
+    }
+    scale = target.value / currentShortSide;
   }
 
-  const scale = shortSide / currentShortSide;
+  if (target.mode === "mp") {
+    const currentPixels = width * height;
+    const targetPixels = target.value * 1_000_000;
+    if (currentPixels <= targetPixels) {
+      return { width, height };
+    }
+    scale = Math.sqrt(targetPixels / currentPixels);
+  }
+
   return {
     width: Math.max(1, Math.round(width * scale)),
     height: Math.max(1, Math.round(height * scale)),
@@ -216,7 +278,7 @@ function targetSize(width, height, shortSide) {
 async function convertRecord(record, index) {
   const mime = selectedMime();
   const image = await loadImage(record.url);
-  const dimensions = targetSize(image.naturalWidth, image.naturalHeight, selectedShortSide());
+  const dimensions = targetSize(image.naturalWidth, image.naturalHeight, selectedResizeTarget());
   const canvas = document.createElement("canvas");
   canvas.width = dimensions.width;
   canvas.height = dimensions.height;
@@ -467,6 +529,9 @@ qualityInput.addEventListener("input", () => {
   qualityValue.textContent = qualityInput.value;
 });
 
+resizePreset.addEventListener("change", updateResizeControls);
+customResizeInput.addEventListener("input", updateResizeControls);
+
 backgroundInput.addEventListener("input", () => {
   backgroundValue.textContent = backgroundInput.value;
 });
@@ -505,4 +570,5 @@ themeToggle.addEventListener("click", () => {
 });
 
 detectEncoders();
+updateResizeControls();
 render();
