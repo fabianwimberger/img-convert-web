@@ -47,7 +47,8 @@ body {
 }
 
 button,
-input {
+input,
+select {
   font: inherit;
 }
 
@@ -377,10 +378,6 @@ legend,
   gap: 6px;
 }
 
-fieldset:nth-of-type(2) .segmented-control {
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-}
-
 .segmented-control label {
   min-width: 0;
 }
@@ -422,17 +419,32 @@ fieldset:nth-of-type(2) .segmented-control {
 }
 
 .field input[type="range"],
-.field input[type="color"] {
+.field input[type="color"],
+.field input[type="number"],
+.field select {
   grid-column: 1 / -1;
   width: 100%;
 }
 
-.field input[type="color"] {
+.field input[type="color"],
+.field input[type="number"],
+.field select {
   height: 42px;
   padding: 3px;
   border: 1px solid var(--border);
   border-radius: 7px;
   background: var(--surface-alt);
+  color: var(--text);
+}
+
+.field input[type="number"],
+.field select {
+  padding: 0 10px;
+  font-weight: 650;
+}
+
+.hidden-field {
+  display: none;
 }
 
 .check-field {

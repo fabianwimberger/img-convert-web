@@ -111,23 +111,38 @@
             <input id="quality-input" type="range" min="35" max="100" value="82">
           </label>
 
-          <fieldset>
-            <legend>Short Side</legend>
-            <div class="segmented-control">
-              <label>
-                <input type="radio" name="shortSide" value="0" checked>
-                <span>Original</span>
-              </label>
-              <label>
-                <input type="radio" name="shortSide" value="3000">
-                <span>High</span>
-              </label>
-              <label>
-                <input type="radio" name="shortSide" value="1440">
-                <span>Low</span>
-              </label>
-            </div>
-          </fieldset>
+          <label class="field">
+            <span>Resize Target</span>
+            <span id="resize-value" class="value-badge">Original</span>
+            <select id="resize-preset">
+              <option value="original" selected>Original</option>
+              <optgroup label="Short side">
+                <option value="short:720">720 px</option>
+                <option value="short:1080">1080 px</option>
+                <option value="short:1440">1440 px</option>
+                <option value="short:2160">2160 px</option>
+                <option value="short:3000">3000 px</option>
+                <option value="short:4000">4000 px</option>
+                <option value="short:custom">Custom short side</option>
+              </optgroup>
+              <optgroup label="Megapixels">
+                <option value="mp:0.5">0.5 MP</option>
+                <option value="mp:1">1 MP</option>
+                <option value="mp:2">2 MP</option>
+                <option value="mp:4">4 MP</option>
+                <option value="mp:8">8 MP</option>
+                <option value="mp:12">12 MP</option>
+                <option value="mp:24">24 MP</option>
+                <option value="mp:custom">Custom megapixels</option>
+              </optgroup>
+            </select>
+          </label>
+
+          <label id="custom-resize-field" class="field hidden-field">
+            <span id="custom-resize-label">Custom Value</span>
+            <span id="custom-resize-unit" class="value-badge">px</span>
+            <input id="custom-resize-input" type="number" min="1" max="12000" step="1" value="1440">
+          </label>
 
           <label class="field">
             <span>Background</span>
