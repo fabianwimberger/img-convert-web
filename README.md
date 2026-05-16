@@ -1,37 +1,37 @@
-# img-convert-web
-
 [![CI](https://github.com/fabianwimberger/img-convert-web/actions/workflows/ci.yml/badge.svg)](https://github.com/fabianwimberger/img-convert-web/actions/workflows/ci.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-A browser image conversion service for resizing and exporting images without uploading them to a server.
+# img-convert-web
+
+Private browser image conversion for resizing and exporting images without an upload step.
 
 ## Background
 
-Small web publishing jobs often need the same image handoff as the desktop `img-convert` tool: resize to a predictable short side, choose a web format, and download the result. GitHub Pages cannot run native encoders, so this service keeps the workflow public and zero-hosting-cost by using browser canvas encoders for formats the visitor's browser supports.
+Publishing a handful of images should not require a desktop batch tool, a cloud upload, or a full editing suite. `img-convert-web` brings the most common publishing workflow from [img-convert](https://github.com/fabianwimberger/img-convert) into the browser: drop images in, choose the output format and size, then download web-ready files.
 
 ## Features
 
-- **Local conversion** — images stay in the browser
-- **Format choice** — JPG, PNG, WebP, and AVIF when supported by the browser
-- **Resize targets** — original, common short-side presets, megapixel presets, and custom values
-- **Quality control** — browser encoder quality slider for lossy formats
-- **Alpha handling** — configurable background color for JPG output
-- **Batch download** — converted files are packaged as a dependency-free ZIP
-- **Light / dark theme** — matches the `img-convert` palette
-- **GitHub Pages deployment** — workflow publishes the static app from `docs/`
+- **Private by default** — files are decoded, resized, and encoded in the browser
+- **Multiple output formats** — export JPG, PNG, WebP, and AVIF when supported by the browser
+- **Flexible resizing** — keep original dimensions, target a short side, or limit total megapixels
+- **Custom output controls** — tune lossy quality and choose the JPG background color for transparent images
+- **Batch workflow** — convert several images at once and download individual files or one ZIP archive
+- **Fast preview** — inspect the selected image before and after conversion
+- **Static hosting** — runs from GitHub Pages without a backend service
+- **Light and dark themes** — matches the desktop [img-convert](https://github.com/fabianwimberger/img-convert) visual style
 
-## Live Service
+## Live App
 
-View the service at **[fabianwimberger.github.io/img-convert-web](https://fabianwimberger.github.io/img-convert-web/)**.
+Use the hosted app at [fabianwimberger.github.io/img-convert-web](https://fabianwimberger.github.io/img-convert-web/).
 
 ## Quick Start
 
 ```bash
-# Clone
+# Clone the repository
 git clone https://github.com/fabianwimberger/img-convert-web.git
 cd img-convert-web
 
-# Serve locally
+# Serve the static app locally
 python3 -m http.server 8000 --directory docs
 ```
 
@@ -39,9 +39,23 @@ Open `http://localhost:8000`.
 
 ## How It Works
 
-```text
-Source images -> Browser decode -> Canvas resize -> Browser encode -> ZIP download
+```mermaid
+flowchart LR
+    A[Drop images] --> B[Choose format and size]
+    B --> C[Browser decode]
+    C --> D[Canvas resize]
+    D --> E[Browser encode]
+    E --> F[Download files or ZIP]
 ```
+
+Image data stays on the local device. Available output formats depend on the browser's canvas encoder support, so unsupported formats are disabled automatically.
+
+## Related Projects
+
+- [img-convert](https://github.com/fabianwimberger/img-convert) — desktop batch image converter with native encoders for JPG, AVIF, JXL, and HEIC
+- [archive-video-av1](https://github.com/fabianwimberger/archive-video-av1) — self-hosted web UI for AV1 video conversion
+- [cloud-bench](https://github.com/fabianwimberger/cloud-bench) — cloud throughput benchmarking across HTTP reverse proxies
+- [linznetz-energy-tracker](https://github.com/fabianwimberger/linznetz-energy-tracker) — local energy data tracking for Linz Netz exports
 
 ## Configuration
 
@@ -51,9 +65,13 @@ No environment variables are required.
 | -------- | ------- | ----------- |
 | N/A      | N/A     | Static GitHub Pages deployment from `docs/` |
 
+## Contributing
+
+See [CONTRIBUTING.md](CONTRIBUTING.md). Please report security issues privately; see [SECURITY.md](SECURITY.md).
+
 ## License
 
-MIT License - see [LICENSE](LICENSE).
+MIT License — see [LICENSE](LICENSE) file.
 
 ### Third-Party Licenses
 
